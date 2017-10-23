@@ -3,6 +3,6 @@
 ## Installation
 + Enable `Import Export` Module
 + Enable `Razor Templates` Module
-+ Import `Collapse.xml` 
++ Import `Accordion.xml` 
 
 > This is a Bootstrap Accordion, so you must have Bootstrap installed to your Orchard Site.
