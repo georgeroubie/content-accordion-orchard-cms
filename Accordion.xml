@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--Exported from Orchard-->
+<Orchard>
+  <Recipe>
+    <ExportUtc>2017-10-23T09:09:01.6243748Z</ExportUtc>
+  </Recipe>
+  <ContentDefinition>
+    <Types>
+      <Collapse ContentTypeSettings.Creatable="True" ContentTypeSettings.Draftable="False" ContentTypeSettings.Listable="True" ContentTypeSettings.Securable="True" ContentTypeLayoutSettings.Placeable="False" DisplayName="Collapse">
+        <Collapse />
+        <CommonPart OwnerEditorSettings.ShowOwnerEditor="False" DateEditorSettings.ShowDateEditor="False" />
+        <IdentityPart />
+        <TitlePart />
+      </Collapse>
+      <CollapseItem ContentTypeSettings.Creatable="True" ContentTypeSettings.Draftable="False" ContentTypeSettings.Listable="True" ContentTypeSettings.Securable="True" ContentTypeLayoutSettings.Placeable="False" DisplayName="Collapse Item">
+        <CollapseItem />
+        <CommonPart OwnerEditorSettings.ShowOwnerEditor="False" DateEditorSettings.ShowDateEditor="False" />
+        <IdentityPart />
+        <TitlePart />
+      </CollapseItem>
+    </Types>
+    <Parts>
+      <Collapse ContentPartSettings.Attachable="True">
+        <CollapsePicker.ContentPickerField DisplayName="Add Collapse Items" ContentPickerFieldSettings.Required="True" ContentPickerFieldSettings.Multiple="True" ContentPickerFieldSettings.ShowContentTab="True" ContentPickerFieldSettings.DisplayedContentTypes="CollapseItem" />
+      </Collapse>
+      <CollapseItem ContentPartSettings.Attachable="True">
+        <Body.TextField DisplayName="Body" TextFieldSettings.Flavor="Html" TextFieldSettings.Required="True" />
+      </CollapseItem>
+      <CommonPart ContentPartSettings.Attachable="True" ContentPartSettings.Description="Provides common information about a content item, such as Owner, Date Created, Date Published and Date Modified." ContentPartLayoutSettings.Placeable="True" ContentPartLayoutSettings.Placable="True" />
+      <IdentityPart ContentPartSettings.Attachable="True" ContentPartSettings.Description="Automatically generates a unique identity for the content item, which is required in import/export scenarios where one content item references another." />
+      <TitlePart ContentPartSettings.Attachable="True" ContentPartSettings.Description="Provides a Title for your content item." ContentPartLayoutSettings.Placeable="True" />
+    </Parts>
+  </ContentDefinition>
+  <Content>
+    <Template Id="/Identifier=86a93ac808b54d2d87aa196fc56a0557" Status="Published">
+      <CommonPart Owner="/User.UserName=admin" CreatedUtc="2017-10-23T07:33:12.9151269Z" PublishedUtc="2017-10-23T09:08:11.4752334Z" ModifiedUtc="2017-10-23T09:08:11.4712161Z" />
+      <IdentityPart Identifier="86a93ac808b54d2d87aa196fc56a0557" />
+      <ShapePart RenderingMode="FrontEnd"><![CDATA[
+@{
+	var content = Model.ContentItem.Collapse;
+	var collapseId = Guid.NewGuid().ToString().Replace("-", "");
+}
+<div class="panel-group" id="accordion_@collapseId" role="tablist" aria-multiselectable="true">
+	@foreach(var item in content.CollapsePicker.ContentItems) {
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="heading_@item.CollapseItem.Id">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" 
+					   data-parent="#accordion_@collapseId" 
+					   href="#collapse_@item.CollapseItem.Id" 
+					   aria-expanded="true" 
+					   aria-controls="collapse_@item.CollapseItem.Id">
+				  		@item.CollapseItem.TitlePart.Title
+					</a>
+			  	</h4>
+			</div>
+			<div id="collapse_@item.CollapseItem.Id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_@item.CollapseItem.Id">
+				<div class="panel-body">
+					@Html.Raw(item.CollapseItem.Body.Value)
+				</div>
+			</div>
+		</div>
+	}
+</div>
+]]></ShapePart>
+      <TitlePart Title="Content__Collapse" />
+    </Template>
+  </Content>
+</Orchard>
